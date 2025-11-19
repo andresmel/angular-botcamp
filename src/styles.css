@@ -4,3 +4,9 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import 'ngx-toastr/toastr';
 
+@media (max-width: 1100px) {
+  body {
+    transform: scale(0.7);
+    transform-origin: top center;
+  }
+}

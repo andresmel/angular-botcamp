@@ -1,0 +1,91 @@
+.container-cap{
+  position: relative;
+  width: 100%;
+  margin-top: 80px;
+  margin-left: 0%;
+  height: auto;
+
+   justify-content: center;
+   align-items: center;
+   display: flex;
+}
+
+.container-cap .btn-primary{
+  width: 200px;
+  background-color: blueviolet;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+.container-cap .camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 20px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+video {
+  width: 400px;
+  height: 300px;
+  box-shadow: 0 0 16px 4px lightgray;
+  border-radius: 12px;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  background: url(https://png.pngtree.com/png-clipart/20250514/original/pngtree-blanket-ghost-png-sticker-halloween-illustration-png-image_20968641.png) no-repeat center;
+  background-size: 100% 100%;
+}
+.table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin:auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.table th {
+  background: #f8f9fa;
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover Bootstrap-like */
+.table tbody tr:hover {
+  background-color: #f1f3f5;
+  cursor: pointer;
+}
+
+/* Imagen más bonita */
+.table img {
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  width: 100px;
+  height: auto;
+}

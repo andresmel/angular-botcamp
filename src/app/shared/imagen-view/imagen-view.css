@@ -1,0 +1,29 @@
+.container-imagen-div{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.6);
+  z-index: 99;
+}
+.contain-imagen{
+  position: relative;
+  width: 500px;
+  height: 400px;
+  box-shadow: 0 0 16px 5px lightgray;
+}
+
+.btn-cerrar{
+  position: absolute;
+  top:0;
+  right: 0;
+  background-color: red;
+  border:none;
+  font-size: 16px;
+  color:white;
+  padding: 10px;
+}

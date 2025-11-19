@@ -1,0 +1,13 @@
+.contenedor-login{
+    position: relative;
+    margin-top:20px;
+    margin-left: 0;
+    position: inherit;
+    width:100%;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
+}

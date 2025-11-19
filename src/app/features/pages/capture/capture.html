@@ -1,0 +1,43 @@
+
+<app-imagen-view *ngIf="close()" (closeData)="closeModal($event)" [getdata]="imagen()"></app-imagen-view>
+<app-loading *ngIf="load()"></app-loading>
+<div class="container-cap">
+  <div class="camera-container">
+
+    <video #videoElement autoplay playsinline></video>
+
+    <button (click)="startCamera()" class="btn-primary">Activar Cámara</button>
+    <button (click)="stopCamera()" class="btn-primary">Detener Cámara</button>
+    <button (click)="captured = captureImage()" class="btn-primary">Capturar</button>
+    @if (captured) {
+    <button (click)="sendImage()" class="btn-primary">Enviar Imagen</button>
+    }
+    <div *ngIf="captured">
+      <h3>Foto tomada:</h3>
+      <img [src]="captured" style="width:400px;height: 300px; border:2px solid #8647AB" />
+
+    </div>
+
+    <button (click)="getImagesTable()" class="btn-primary">Listar Imagenes</button>
+    @if(listImages.length>0){
+    <table class="table">
+      <thead>
+        <th>Id</th>
+        <th>Fecha Creacion</th>
+        <th>Imagen</th>
+      </thead>
+      <tbody>
+
+        @for (item of listImages; track $index) {
+        <tr>
+          <td>{{item.id}}</td>
+          <td>{{item.created_at}}</td>
+          <td><img [src]="item.imagen" width="45" height="45" (click)="showImages(item)" /></td>
+        </tr>
+        }
+
+      </tbody>
+    </table>
+    }
+  </div>
+</div>

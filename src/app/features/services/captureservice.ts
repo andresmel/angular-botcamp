@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Captureservice {
   private _http=inject(HttpClient);
-  baseUrl="http://127.0.0.1:8000/detect-faces";
-  baseUrlDos="http://127.0.0.1:8000/get-images";
+  baseUrl="https://python-botcamp-api.onrender.com/detect-faces";
+  baseUrlDos="https://python-botcamp-api.onrender.com/get-images";
   constructor(){}
 
   sendData(image:any){

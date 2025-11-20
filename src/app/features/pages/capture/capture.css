@@ -93,3 +93,11 @@ video {
   width: 400px;
   height: 300px;
 }
+
+.thumb {
+  width: 45px !important;
+  height: 45px !important;
+  object-fit: cover;       /* recorta sin deformar */
+  border-radius: 4px;       /* opcional */
+  display: block;
+}

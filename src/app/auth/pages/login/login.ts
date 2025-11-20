@@ -29,6 +29,7 @@ authLogin(authuser:any){
        if(res){
         this._toast.success("correct info")
         this._route.navigate(["dashboard"]);
+        sessionStorage.setItem("validar","true")
        }else{
        this._toast.error("error de credenciales");
        }

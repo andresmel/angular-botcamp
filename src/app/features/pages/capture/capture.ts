@@ -4,7 +4,9 @@ import { Captureservice } from '../../services/captureservice';
 import { ToastrService } from 'ngx-toastr';
 import { Loading } from '../../../shared/loading/loading';
 import { ImagenView } from '../../../shared/imagen-view/imagen-view';
-
+import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-capture',
   imports: [CommonModule,Loading,ImagenView],
@@ -13,7 +15,7 @@ import { ImagenView } from '../../../shared/imagen-view/imagen-view';
 })
 export class Capture {
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
-
+  _route=inject(Router);
   stream!: MediaStream;
   captured: string | null = null;
   _captureService=inject(Captureservice);
@@ -24,6 +26,18 @@ export class Capture {
   imagen=signal("");
   activeCam=signal(false);
   // Activar la cámara
+
+  constructor(){
+
+  }
+
+  ngOnInit(): void {
+   let res=sessionStorage.getItem("validar")
+     if(!res){
+         this._route.navigate(["login"])
+     }
+  }
+
   async startCamera() {
     try {
       this.activeCam.set(true)
@@ -103,5 +117,35 @@ export class Capture {
   }
   closeModal(data:boolean){
       this.close.set(data);
+  }
+
+
+
+
+  exportToExcel() {
+    let listImagesRes = this.listImages.map((row: any) => {
+  const d = new Date(row.created_at);
+  const fecha = d.toLocaleDateString('es-CO'); // "20/11/2025"
+  return {
+    id: row.id,
+    fecha: fecha,
+    imagen: 'imagen-base64'   // aquí reemplazas el base64 por el texto
+  };
+});
+    const worksheet = XLSX.utils.json_to_sheet(listImagesRes);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+
+    const data: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    saveAs(data, 'tabla.xlsx');
   }
 }

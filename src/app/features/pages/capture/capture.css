@@ -35,7 +35,7 @@
 video {
   width: 400px;
   height: 300px;
-  box-shadow: 0 0 16px 4px lightgray;
+  box-shadow: 0 0 2px 1px lightgray;
   border-radius: 12px;
   display: block;
   margin: 20px auto;
@@ -88,4 +88,8 @@ video {
   border: 1px solid #ddd;
   width: 100px;
   height: auto;
+}
+.fimagen{
+  width: 400px;
+  height: 300px;
 }

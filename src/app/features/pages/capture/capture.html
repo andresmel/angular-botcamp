@@ -1,22 +1,30 @@
-
 <app-imagen-view *ngIf="close()" (closeData)="closeModal($event)" [getdata]="imagen()"></app-imagen-view>
 <app-loading *ngIf="load()"></app-loading>
 <div class="container-cap">
   <div class="camera-container">
+    <table>
+      <tr>
+        <td>
+          <video #videoElement autoplay playsinline class="fvideo"></video>
+        </td>
+        <td>
+          <div *ngIf="captured && activeCam()" class="fimagen" >
+            <img [src]="captured" style="width:100%;height: 100%; border:2px solid #8647AB" />
+          </div>
+        </td>
+      </tr>
+    </table>
 
-    <video #videoElement autoplay playsinline></video>
+    <button *ngIf="activeCam()" (click)="captured = captureImage()" class="btn-primary">Capturar</button>
+
 
     <button (click)="startCamera()" class="btn-primary">Activar Cámara</button>
-    <button (click)="stopCamera()" class="btn-primary">Detener Cámara</button>
-    <button (click)="captured = captureImage()" class="btn-primary">Capturar</button>
-    @if (captured) {
-    <button (click)="sendImage()" class="btn-primary">Enviar Imagen</button>
-    }
-    <div *ngIf="captured">
-      <h3>Foto tomada:</h3>
-      <img [src]="captured" style="width:400px;height: 300px; border:2px solid #8647AB" />
+    <button (click)="stopCamera()" class="btn-primary" *ngIf="activeCam()">Detener Cámara</button>
 
-    </div>
+    @if (captured) {
+    <button (click)="sendImage()" class="btn-primary" *ngIf="activeCam()">Enviar Imagen</button>
+    }
+
 
     <button (click)="getImagesTable()" class="btn-primary">Listar Fotos</button>
     @if(listImages.length>0){

@@ -22,9 +22,11 @@ export class Capture {
   load=signal(false);
   close=signal(false);
   imagen=signal("");
+  activeCam=signal(false);
   // Activar la cámara
   async startCamera() {
     try {
+      this.activeCam.set(true)
       this.stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'user' }   // "environment" para cámara trasera
       });
@@ -32,6 +34,7 @@ export class Capture {
       this.videoElement.nativeElement.srcObject = this.stream;
       this.videoElement.nativeElement.play();
     } catch (err) {
+      this.activeCam.set(false)
       console.error('Error activando cámara', err);
     }
   }
@@ -40,6 +43,7 @@ export class Capture {
   stopCamera() {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop());
+      this.activeCam.set(false)
     }
   }
 
@@ -71,6 +75,7 @@ export class Capture {
       },
       complete:()=>{
         this.load.set(false);
+        this.getImagesTable();
       }
      })
   }

@@ -90,6 +90,7 @@ export class Capture {
       },
       error:(error)=>{
         console.log(error)
+        this.load.set(false);
         this._toast.error("error en la imaagen al guardar")
       },
       complete:()=>{

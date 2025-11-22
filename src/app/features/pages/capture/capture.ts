@@ -7,6 +7,10 @@ import { ImagenView } from '../../../shared/imagen-view/imagen-view';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+
 @Component({
   selector: 'app-capture',
   imports: [CommonModule,Loading,ImagenView],
@@ -77,6 +81,7 @@ export class Capture {
 
   sendImage(){
      console.log(this.captured)
+
       this.load.set(true);
      this._captureService.sendData(this.captured).subscribe({
       next:(data)=>{
@@ -122,30 +127,47 @@ export class Capture {
 
 
 
-  exportToExcel() {
-    let listImagesRes = this.listImages.map((row: any) => {
-  const d = new Date(row.created_at);
-  const fecha = d.toLocaleDateString('es-CO'); // "20/11/2025"
-  return {
-    id: row.id,
-    fecha: fecha,
-    imagen: 'imagen-base64'   // aquí reemplazas el base64 por el texto
-  };
-});
-    const worksheet = XLSX.utils.json_to_sheet(listImagesRes);
+  async exportToExcel() {
+  const wb = new Workbook();
+  const ws = wb.addWorksheet('Fotos');
 
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+  ws.columns = [
+    { header: 'Id',    key: 'id',    width: 10 },
+    { header: 'Fecha', key: 'fecha', width: 22 },
+    { header: 'Imagen', key: 'img',  width: 15 },
+    { header:'Descripcion', key:'description',width:20}
+  ];
 
-    const excelBuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array'
+  for (const item of this.listImages) {
+    const row = ws.addRow({
+      id: item.id,
+      fecha: new Date(item.created_at).toLocaleString(),
+      description:item.descroption
     });
 
-    const data: Blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    // --- extrae extensión y base64 puro ---
+    const m = /^data:(image\/(png|jpeg|jpg));base64,/.exec(item.imagen);
+    const ext = (m?.[2] === 'jpg') ? 'jpeg' : (m?.[2] ?? 'png');
+    const base64 = item.imagen.includes(',') ? item.imagen.split(',')[1] : item.imagen;
+
+    // --- agrega la imagen usando base64 (NO buffer) ---
+    const imageId = wb.addImage({
+      base64: base64,
+      extension: ext as 'png' | 'jpeg'
     });
 
-    saveAs(data, 'tabla.xlsx');
+    // Columna C es índice 2 (0-based). 45x45 px
+    ws.addImage(imageId, {
+      tl:  { col: 2, row: row.number - 1 },
+      ext: { width: 45, height: 45 }
+    });
+
+    // Ajusta altura de la fila (puntos)
+    ws.getRow(row.number).height = 35;
+  }
+
+  const buf = await wb.xlsx.writeBuffer();
+  saveAs(new Blob([buf]), 'imagenes.xlsx');
+
   }
 }
